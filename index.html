@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-image: url('background1.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background-size: 100% 100%; 
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .rotate {
+            position: relative;
+            width: 300px;
+            height: 620px;
+            transform-style: preserve-3d;
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            0% {
+                transform: perspective(1200px) rotateY(0deg);
+            }
+            100% {
+                transform: perspective(1200px) rotateY(360deg);
+            }
+        }
+        
+        .rotate span {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform-origin: center;
+            transform-style: preserve-3d;
+            transform: rotateY(calc(var(--i) * 45deg)) translateZ(380px);
+            filter: drop-shadow(0px 0px 10px rgba(69, 82, 70, 0.8));
+        }
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .image-container a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+        }
+
+        .rotate span img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 650px;
+            border-radius: 80px;
+            object-fit: cover;
+            transition: 0.8s ease-in-out;
+            box-shadow: 0px 0px 20px rgba(69, 82, 70, 0.8);
+            border: 3px solid rgba(69, 82, 70, 0.8);
+        }
+
+        /* Only apply hover effect on non-touch devices */
+        @media (hover: hover) {
+            .rotate span:hover img {
+                transform: translateY(-30px) scale(1.15);
+                box-shadow: 0px 0px 30px rgba(69, 82, 70, 0.8);
+            }
+        }
+        
+        /* Active state for touch devices */
+        .rotate span:active img {
+            transform: translateY(-15px) scale(1.1);
+            box-shadow: 0px 0px 25px rgba(69, 82, 70, 0.8);
+        }
+        
+        .center-glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.3), rgba(0, 0, 0, 0));
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: -1;
+        }
+        
+        .heading {
+            position: absolute;
+            top: 100px; 
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgb(164, 137, 101);
+            font-size: 100px; 
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-weight: bolder;
+            text-shadow: 2px 2px 5px rgb(54, 79, 54);
+            text-align: center;
+            width: 90%;
+        }
+
+        /* Name styling for top right corner */
+        .image-name {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: rgb(52, 33, 7);
+            font-size: 22px;
+            font-weight: bold;
+            text-align: right;
+            text-shadow: 1px 1px 3px rgba(92, 67, 9, 0.7);
+            font-family: 'Trebuchet MS', sans-serif;
+            z-index: 10;
+            padding: 4px 8px;
+            border-radius: 8px;
+            max-width: 80%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Media queries for image names on different screen sizes */
+        @media only screen and (max-width: 768px) {
+            .image-name {
+                font-size: 16px;
+                top: 12px;
+                right: 12px;
+                padding: 3px 6px;
+                border-radius: 6px;
+            }
+        }
+
+        @media only screen and (max-width: 576px) {
+            .image-name {
+                font-size: 14px;
+                top: 10px;
+                right: 10px;
+                padding: 2px 5px;
+                border-radius: 5px;
+            }
+        }
+
+        @media only screen and (max-width: 400px) {
+            .image-name {
+                font-size: 12px;
+                top: 8px;
+                right: 8px;
+                padding: 2px 4px;
+                border-radius: 4px;
+            }
+        }
+
+        @media only screen and (max-width: 320px) {
+            .image-name {
+                font-size: 10px;
+                top: 6px;
+                right: 6px;
+                padding: 1px 3px;
+                border-radius: 3px;
+            }
+        }
+        
+        /* Media Queries for Responsive Design */
+        @media only screen and (max-width: 1200px) {
+            .rotate span {
+                transform: rotateY(calc(var(--i) * 45deg)) translateZ(350px);
+            }
+        }
+        
+        @media only screen and (max-width: 992px) {
+            .heading {
+                font-size: 80px;
+                top: 80px;
+            }
+            
+            .rotate span {
+                transform: rotateY(calc(var(--i) * 45deg)) translateZ(300px);
+            }
+        }
+        
+        /* Optimized mobile media queries */
+        @media only screen and (max-width: 768px) {
+            .heading {
+                font-size: 38px;
+                top: 35px;
+            }
+            
+            .rotate {
+                width: 200px;
+                height: 350px;
+            }
+            
+            .rotate span {
+                transform: rotateY(calc(var(--i) * 45deg)) translateZ(150px);
+            }
+            
+            .rotate span img {
+                width: 130px;
+                height: 280px;
+                border-radius: 30px;
+            }
+            
+            .center-glow {
+                width: 250px;
+                height: 250px;
+            }
+        }
+        
+        @media only screen and (max-width: 576px) {
+            .heading {
+                font-size: 30px;
+                top: 25px;
+            }
+            
+            .rotate {
+                width: 180px;
+                height: 260px;
+            }
+            
+            .rotate span {
+                transform: rotateY(calc(var(--i) * 45deg)) translateZ(120px);
+            }
+            
+            .rotate span img {
+                width: 110px;
+                height: 240px;
+                border-radius: 25px;
+            }
+        }
+        
+        @media only screen and (max-width: 400px) {
+            .heading {
+                font-size: 26px;
+                top: 20px;
+            }
+            
+            .rotate {
+                width: 150px;
+                height: 220px;
+            }
+            
+            .rotate span {
+                transform: rotateY(calc(var(--i) * 45deg)) translateZ(100px);
+            }
+            
+            .rotate span img {
+                width: 90px;
+                height: 200px;
+                border-radius: 20px;
+            }
+        }
+        
+        @media only screen and (max-width: 320px) {
+            .rotate {
+                width: 120px;
+                height: 190px;
+            }
+            
+            .rotate span {
+                transform: rotateY(calc(var(--i) * 45deg)) translateZ(80px);
+            }
+            
+            .rotate span img {
+                width: 75px;
+                height: 170px;
+                border-radius: 15px;
+            }
+        }
+        
+        /* Height-based adjustments for short screens */
+        @media screen and (max-height: 600px) {
+            .heading {
+                top: 20px;
+                font-size: 30px;
+            }
+            
+            .rotate {
+                height: 300px;
+            }
+            
+            .rotate span img {
+                height: 280px;
+            }
+        }
+        
+        /* Social icon adjustments */
+        @media screen and (max-width: 768px) {
+            .social-icons i {
+                font-size: 1.5rem !important;
+                margin: 0 8px !important;
+            }
+            
+            .navbar i {
+                font-size: 1.2rem !important;
+            }
+            
+            button i, 
+            .btn i {
+                font-size: 1rem !important;
+                vertical-align: middle;
+            }
+        }
+        
+        /* Fix for the animation on mobile to prevent dizziness */
+        @media (max-width: 768px) {
+            .rotate {
+                animation: rotate 30s linear infinite; /* Slower rotation on mobile */
+            }
+        }
+        
+        /* Pause animation on touch/hover for better usability */
+        .rotate:hover, .rotate:active {
+            animation-play-state: paused;
+        }
+    </style>
+</head>
+<body> 
+    <h1 class="heading">The Lost Locket</h1>
+    <div class="center-glow"></div>
+    <div class="rotate">
+        <span style="--i:1;">
+            <div class="image-container">
+                <a href="message0.html">
+                    <img src="1.jpg" alt="locket image">
+                    <div class="image-name">English</div>
+                </a>
+            </div>
+        </span>
+  
+        <span style="--i:2;">
+            <div class="image-container">
+                <a href="message1.html">
+                    <img src="1.jpg" alt="locket image">
+                    <div class="image-name">Urdu</div>
+                </a>
+            </div>
+        </span>
+        
+        <span style="--i:3;">
+            <div class="image-container">
+                <a href="message2.html"><!-- Fixed link here -->
+                    <img src="1.jpg" alt="locket image">
+                    <div class="image-name">Pashto</div>
+                </a>
+            </div>
+        </span>
+
+        <span style="--i:4;">
+            <div class="image-container">
+                <a href="message0.html">
+                    <img src="1.jpg" alt="locket image">
+                    <div class="image-name">English</div>
+                </a>
+            </div>
+        </span>
+
+        <span style="--i:5;">
+            <div class="image-container">
+                <a href="message1.html">
+                    <img src="1.jpg" alt="locket image">
+                    <div class="image-name">Urdu</div>
+                </a>
+            </div>
+        </span>
+
+        <span style="--i:6;">
+            <div class="image-container">
+                <a href="message2.html">
+                    <img src="1.jpg" alt="locket image">
+                    <div class="image-name">Pashto</div>
+                </a>
+            </div>
+        </span>
+
+        <span style="--i:7;">
+            <div class="image-container">
+                <a href="message1.html">
+                    <img src="1.jpg" alt="locket image">
+                    <div class="image-name">Urdu</div>
+                </a>
+            </div>
+        </span>
+
+        <span style="--i:8;">
+            <div class="image-container">
+                <a href="message0.html">
+                    <img src="1.jpg" alt="locket image">
+                    <div class="image-name">English</div>
+                </a>
+            </div>
+        </span>
+    </div>
+    
+    <script>
+        // JavaScript to improve mobile experience
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fix for 300ms delay on mobile touch
+            const links = document.querySelectorAll('.image-container a');
+            links.forEach(link => {
+                link.addEventListener('touchend', function(e) {
+                    // Pause animation briefly to allow user to click
+                    const rotate = document.querySelector('.rotate');
+                    rotate.style.animationPlayState = 'paused';
+                    
+                    // Resume animation after click
+                    setTimeout(function() {
+                        rotate.style.animationPlayState = 'running';
+                    }, 1500);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
